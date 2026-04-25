@@ -1,0 +1,14 @@
+{
+  "domain": "solar_regulator",
+  "name": "Solar Regulator",
+  "version": "1.0.0",
+  "documentation": "https://github.com/kamajou/ha-solar-regulator",
+  "dependencies": [],
+  "codeowners": [
+    "@kamajou"
+  ],
+  "requirements": [],
+  "iot_class": "local_push",
+  "config_flow": true,
+  "platforms": ["sensor", "switch"]
+}

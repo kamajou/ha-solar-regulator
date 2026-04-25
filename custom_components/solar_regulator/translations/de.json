@@ -1,0 +1,52 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Solar Regulator einrichten",
+        "description": "Konfiguriere den Solar-Regler für dein Balkonkraftwerk.",
+        "data": {
+          "power_sensors": "Verbrauchssensoren (beliebig viele)",
+          "inverter_limit_entity": "Wechselrichter-Limit Entity (Sollwert-Ausgang)",
+          "inverter_max_power": "Maximale WR-Leistung (W)",
+          "inverter_min_power": "Minimale WR-Leistung (W)",
+          "interval": "Regelintervall (Sekunden)",
+          "min_change": "Mindestabstand für Sollwert-Ausgabe (W)",
+          "base_consumption": "Grundverbrauch (W)",
+          "spike_filter": "Spike-Filter: max. erlaubter Anstieg pro Sensor (W)",
+          "spike_duration": "Spike-Filter: Bestätigungszeit (s)",
+          "allowed_feedin": "Erlaubte Einspeisung (W)",
+          "panel_power_sensor": "Aktuelle Panelleistung Sensor (optional)",
+          "battery_soc_sensor": "Batterie-Ladestand Sensor (optional)",
+          "battery_full_threshold": "Akku-Vollschwelle (%)",
+          "battery_full_margin": "Marge über Verbrauch wenn Akku voll (%)",
+          "solar_forecast_sensor": "Solar-Produktionsvorhersage Sensor (optional)"
+        }
+      }
+    },
+    "error": {}
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Solar Regulator Einstellungen",
+        "data": {
+          "power_sensors": "Verbrauchssensoren (beliebig viele)",
+          "inverter_limit_entity": "Wechselrichter-Limit Entity (Sollwert-Ausgang)",
+          "inverter_max_power": "Maximale WR-Leistung (W)",
+          "inverter_min_power": "Minimale WR-Leistung (W)",
+          "interval": "Regelintervall (Sekunden)",
+          "min_change": "Mindestabstand für Sollwert-Ausgabe (W)",
+          "base_consumption": "Grundverbrauch (W)",
+          "spike_filter": "Spike-Filter: max. erlaubter Anstieg pro Sensor (W)",
+          "spike_duration": "Spike-Filter: Bestätigungszeit (s)",
+          "allowed_feedin": "Erlaubte Einspeisung (W)",
+          "panel_power_sensor": "Aktuelle Panelleistung Sensor (optional)",
+          "battery_soc_sensor": "Batterie-Ladestand Sensor (optional)",
+          "battery_full_threshold": "Akku-Vollschwelle (%)",
+          "battery_full_margin": "Marge über Verbrauch wenn Akku voll (%)",
+          "solar_forecast_sensor": "Solar-Produktionsvorhersage Sensor (optional)"
+        }
+      }
+    }
+  }
+}
