@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1] – 2026-04-26
+
+### Added
+- Integration-Icon (`icon.svg`) — wird in HA Integrationsübersicht und HACS angezeigt
+
+---
+
 ## [1.0.0] – 2026-04-25
 
 ### Initial Release
