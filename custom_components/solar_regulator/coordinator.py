@@ -62,6 +62,7 @@ class SolarRegulatorCoordinator:
         self._solar_forecast_sensor: str | None = config.get(CONF_SOLAR_FORECAST_SENSOR) or None
 
         self._current_limit: float | None = None
+        self._disabled_output_sent: bool = False
         self._unsub = None
         self._listeners: list = []
 
@@ -110,22 +111,28 @@ class SolarRegulatorCoordinator:
 
     async def _regulate_safe(self):
 
-        # Regler deaktiviert → Minimalleistung ausgeben
+        # Regler deaktiviert → Minimalleistung einmalig ausgeben, danach nicht mehr eingreifen
         if not self.enabled:
-            setpoint_pct = round(self._min_power / self._max_power * 100.0, 1)
-            await self.hass.services.async_call(
-                "number",
-                "set_value",
-                {"entity_id": self._limit_entity, "value": setpoint_pct},
-                blocking=True,
-            )
-            self._current_limit = self._min_power
-            self.current_limit = self._min_power
+            if not self._disabled_output_sent:
+                setpoint_pct = round(self._min_power / self._max_power * 100.0, 1)
+                await self.hass.services.async_call(
+                    "number",
+                    "set_value",
+                    {"entity_id": self._limit_entity, "value": setpoint_pct},
+                    blocking=True,
+                )
+                self._current_limit = self._min_power
+                self.current_limit = self._min_power
+                self._disabled_output_sent = True
+                _LOGGER.info("Regler deaktiviert – Minimalleistung %.0fW gesetzt.", self._min_power)
             self.status = "Regler deaktiviert"
             self.mode = "Deaktiviert"
             for cb in self._listeners:
                 cb()
             return
+
+        # Regler aktiv → Flag zurücksetzen damit beim nächsten Deaktivieren wieder einmalig ausgegeben wird
+        self._disabled_output_sent = False
 
         # 1. Summe aller Verbrauchssensoren (mit Spike-Filter)
         total = 0.0

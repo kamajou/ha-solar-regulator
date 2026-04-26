@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1b35"/>
+      <stop offset="100%" stop-color="#1a2f50"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1d3d70"/>
+      <stop offset="100%" stop-color="#0e2244"/>
+    </linearGradient>
+    <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="50%" stop-color="#ffca28"/>
+      <stop offset="100%" stop-color="#ff8f00"/>
+    </radialGradient>
+    <linearGradient id="boltGrad" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0%" stop-color="#ffe57f"/>
+      <stop offset="55%" stop-color="#ffab00"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+    <filter id="glow" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="sunGlow" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="boltGlow" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="88" fill="url(#bg)"/>
+
+  <!-- Ambient warm glow behind sun -->
+  <circle cx="256" cy="108" r="90" fill="#ffca28" opacity="0.10" filter="url(#sunGlow)"/>
+
+  <!-- Sun rays -->
+  <g stroke="#ffca28" stroke-width="9" stroke-linecap="round" opacity="0.88" filter="url(#glow)">
+    <line x1="256" y1="28" x2="256" y2="46"/>
+    <line x1="322" y1="48" x2="312" y2="62"/>
+    <line x1="358" y1="108" x2="340" y2="108"/>
+    <line x1="322" y1="168" x2="312" y2="155"/>
+    <line x1="190" y1="48" x2="200" y2="62"/>
+    <line x1="154" y1="108" x2="172" y2="108"/>
+    <line x1="190" y1="168" x2="200" y2="155"/>
+  </g>
+
+  <!-- Sun core -->
+  <circle cx="256" cy="108" r="50" fill="url(#sunGrad)" filter="url(#glow)"/>
+  <circle cx="256" cy="108" r="38" fill="url(#sunGrad)"/>
+
+  <!-- Solar panel frame -->
+  <rect x="66" y="200" width="380" height="188" rx="13" fill="url(#panelGrad)" stroke="#2e549a" stroke-width="3.5"/>
+
+  <!-- Solar cells — 3 columns x 2 rows -->
+  <rect x="76"  y="210" width="110" height="80" rx="7" fill="#112038"/>
+  <rect x="201" y="210" width="110" height="80" rx="7" fill="#112038"/>
+  <rect x="326" y="210" width="110" height="80" rx="7" fill="#112038"/>
+  <rect x="76"  y="300" width="110" height="80" rx="7" fill="#112038"/>
+  <rect x="201" y="300" width="110" height="80" rx="7" fill="#112038"/>
+  <rect x="326" y="300" width="110" height="80" rx="7" fill="#112038"/>
+
+  <!-- Cell internal grid lines -->
+  <g stroke="#1b3d6e" stroke-width="1.5">
+    <line x1="131" y1="210" x2="131" y2="290"/>
+    <line x1="256" y1="210" x2="256" y2="290"/>
+    <line x1="381" y1="210" x2="381" y2="290"/>
+    <line x1="76"  y1="250" x2="186" y2="250"/>
+    <line x1="201" y1="250" x2="311" y2="250"/>
+    <line x1="326" y1="250" x2="436" y2="250"/>
+    <line x1="131" y1="300" x2="131" y2="380"/>
+    <line x1="256" y1="300" x2="256" y2="380"/>
+    <line x1="381" y1="300" x2="381" y2="380"/>
+    <line x1="76"  y1="340" x2="186" y2="340"/>
+    <line x1="201" y1="340" x2="311" y2="340"/>
+    <line x1="326" y1="340" x2="436" y2="340"/>
+  </g>
+
+  <!-- Cell shine highlights -->
+  <g fill="white" opacity="0.065">
+    <rect x="80"  y="214" width="44" height="12" rx="3"/>
+    <rect x="205" y="214" width="44" height="12" rx="3"/>
+    <rect x="330" y="214" width="44" height="12" rx="3"/>
+    <rect x="80"  y="304" width="44" height="12" rx="3"/>
+    <rect x="205" y="304" width="44" height="12" rx="3"/>
+    <rect x="330" y="304" width="44" height="12" rx="3"/>
+  </g>
+
+  <!-- Lightning bolt — soft glow pass -->
+  <path d="M 286 192 L 238 192 L 210 348 L 248 348 L 218 474
+           L 316 320 L 278 320 Z"
+        fill="#ffca28" opacity="0.22" filter="url(#boltGlow)"/>
+
+  <!-- Lightning bolt — main fill -->
+  <path d="M 286 192 L 238 192 L 210 348 L 248 348 L 218 474
+           L 316 320 L 278 320 Z"
+        fill="url(#boltGrad)" filter="url(#glow)"/>
+
+  <!-- Zero-feedin badge — bottom right -->
+  <circle cx="404" cy="424" r="46" fill="#0d1b35" stroke="#00bfa5" stroke-width="4" opacity="0.92"/>
+  <text x="404" y="432" text-anchor="middle" font-family="'Arial', sans-serif"
+        font-weight="700" font-size="34" fill="#00e5ff" opacity="0.95">0W</text>
+</svg>

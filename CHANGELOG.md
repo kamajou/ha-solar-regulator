@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.2] – 2026-04-26
+
+### Changed
+- Regler deaktiviert: Minimalleistung wird nur noch **einmalig** beim Deaktivieren gesetzt — danach greift der Regler nicht mehr ein, sodass der Sollwert am Gerät manuell geändert werden kann ohne überschrieben zu werden
+
+### Fixed
+- Icon wird jetzt auch im HACS-Store angezeigt (`icon.svg` im Root des Repositories ergänzt — HACS liest von dort, HA aus `custom_components/`)
+- Files permissions fixed
+
+---
+
 ## [1.0.1] – 2026-04-26
 
 ### Added
