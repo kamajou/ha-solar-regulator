@@ -177,8 +177,17 @@ class SolarRegulatorCoordinator:
         total += self._base_consumption
         self.total_consumption = round(total, 1)
 
+        # Alle Sensoren nicht verfügbar → Gerät nicht anfassen, nur Status aktualisieren
+        if unavailable and len(unavailable) == len(self._power_sensors):
+            self.status = "Keine Sensoren verfügbar"
+            for cb in self._listeners:
+                cb()
+            return
+
         # 2. Aktuelles Limit lesen (beim ersten Durchlauf)
         # Entity liefert Prozent (0–100) → intern in Watt umrechnen
+        # force_first_output: beim ersten Zyklus immer ausgeben, unabhängig von min_change
+        force_first_output = False
         if self._current_limit is None:
             limit_state = self.hass.states.get(self._limit_entity)
             if limit_state and limit_state.state not in ("unavailable", "unknown"):
@@ -189,6 +198,7 @@ class SolarRegulatorCoordinator:
             else:
                 self._current_limit = self._max_power
             self.current_limit = self._current_limit
+            force_first_output = True
 
         # 3. Sollwert = Verbrauchssumme (Basis)
         setpoint = total
@@ -228,7 +238,7 @@ class SolarRegulatorCoordinator:
         #    - Sofort reagieren wenn Einspeisung die erlaubte Grenze überschreiten würde
         #    - Sonst nur wenn Änderung >= min_change
         feedin_exceeded = setpoint < self._current_limit - self._allowed_feedin
-        should_update = feedin_exceeded or abs(setpoint - self._current_limit) >= self._min_change
+        should_update = force_first_output or feedin_exceeded or abs(setpoint - self._current_limit) >= self._min_change
 
         if not should_update:
             _LOGGER.debug(
@@ -251,9 +261,7 @@ class SolarRegulatorCoordinator:
             self.current_limit = setpoint
 
         # Status setzen – Probleme zuerst, sonst "Aktiv"
-        if unavailable and len(unavailable) == len(self._power_sensors):
-            self.status = "Keine Sensoren verfügbar"
-        elif unavailable:
+        if unavailable:
             self.status = f"Sensor nicht verfügbar: {', '.join(unavailable)}"
         elif spikes:
             self.status = f"Spike gefiltert: {', '.join(spikes)}"
