@@ -1,7 +1,7 @@
 {
   "domain": "solar_regulator",
   "name": "Solar Regulator",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "documentation": "https://github.com/kamajou/ha-solar-regulator",
   "dependencies": [],
   "codeowners": [

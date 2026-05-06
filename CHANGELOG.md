@@ -1,24 +1,18 @@
 # Changelog
 
-## [1.0.2] – 2026-05-01
+## [1.1.0] – 2026-05-06
+
+### Added
+- **Akku-Ladeschwelle**: Wenn der Batterie-SOC unter eine konfigurierbare Schwelle fällt, wird der Sollwert auf einen konfigurierbaren Wert reduziert — neuer Modus `Batterie laden`. Standardwerte: 20 % SOC → 100 W Sollwert.
+- **Integration-Icon** (`icon.svg`) — wird in HA Integrationsübersicht und HACS angezeigt
 
 ### Changed
 - Regler deaktiviert: Minimalleistung wird nur noch **einmalig** beim Deaktivieren gesetzt — danach greift der Regler nicht mehr ein, sodass der Sollwert am Gerät manuell geändert werden kann ohne überschrieben zu werden
 
 ### Fixed
 - Ausgabe 0% beim HA-Start: Wenn das Gerät beim Start bereits auf 0% stand und der berechnete Sollwert kleiner als `min_change` war, wurde kein Korrekturwert geschrieben. Der Regler schreibt jetzt beim ersten Zyklus immer den Sollwert, unabhängig von `min_change`.
-- Wenn alle Sensoren nicht verfügbar sind, wird das Gerät nicht mehr angefasst (bisher wurde `min_power` geschrieben)
-
-### Fixed
-- Icon wird jetzt auch im HACS-Store angezeigt (`icon.svg` im Root des Repositories ergänzt — HACS liest von dort, HA aus `custom_components/`)
-- Files permissions fixed
-
----
-
-## [1.0.1] – 2026-04-26
-
-### Added
-- Integration-Icon (`icon.svg`) — wird in HA Integrationsübersicht und HACS angezeigt
+- Wenn alle Sensoren nicht verfügbar sind, wird das Gerät nicht mehr angefasst
+- Icon wird jetzt auch im HACS-Store angezeigt (`icon.svg` im Root des Repositories ergänzt)
 
 ---
 
@@ -66,4 +60,4 @@
 
 #### Deployment
 - HACS-kompatibel (Custom Repository)
-- GitHub Actions Workflow: automatisches Release bei Tag-Push (`*.*.*`)
+- GitHub Actions Workflow: automatisches Release bei Tag-Push (`v*.*.*`)
