@@ -20,6 +20,8 @@ from .const import (
     CONF_BATTERY_SOC_SENSOR,
     CONF_BATTERY_FULL_THRESHOLD,
     CONF_BATTERY_FULL_MARGIN,
+    CONF_BATTERY_LOW_THRESHOLD,
+    CONF_BATTERY_LOW_OUTPUT,
     CONF_SOLAR_FORECAST_SENSOR,
     DEFAULT_INVERTER_MAX_POWER,
     DEFAULT_INVERTER_MIN_POWER,
@@ -31,6 +33,8 @@ from .const import (
     DEFAULT_ALLOWED_FEEDIN,
     DEFAULT_BATTERY_FULL_THRESHOLD,
     DEFAULT_BATTERY_FULL_MARGIN,
+    DEFAULT_BATTERY_LOW_THRESHOLD,
+    DEFAULT_BATTERY_LOW_OUTPUT,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -59,6 +63,8 @@ class SolarRegulatorCoordinator:
         self._battery_soc_sensor: str | None = config.get(CONF_BATTERY_SOC_SENSOR) or None
         self._battery_full_threshold: float = float(config.get(CONF_BATTERY_FULL_THRESHOLD, DEFAULT_BATTERY_FULL_THRESHOLD))
         self._battery_full_margin: float = float(config.get(CONF_BATTERY_FULL_MARGIN, DEFAULT_BATTERY_FULL_MARGIN))
+        self._battery_low_threshold: float = float(config.get(CONF_BATTERY_LOW_THRESHOLD, DEFAULT_BATTERY_LOW_THRESHOLD))
+        self._battery_low_output: float = float(config.get(CONF_BATTERY_LOW_OUTPUT, DEFAULT_BATTERY_LOW_OUTPUT))
         self._solar_forecast_sensor: str | None = config.get(CONF_SOLAR_FORECAST_SENSOR) or None
 
         self._current_limit: float | None = None
@@ -207,7 +213,14 @@ class SolarRegulatorCoordinator:
         battery_soc = self._read_optional_float(self._battery_soc_sensor, "Batterie-SOC")
         panel_power = self._read_optional_float(self._panel_power_sensor, "Panelleistung")
 
-        if battery_soc is not None and battery_soc >= self._battery_full_threshold:
+        if battery_soc is not None and battery_soc <= self._battery_low_threshold:
+            setpoint = self._battery_low_output
+            self.mode = "Batterie laden"
+            _LOGGER.debug(
+                "Batterie niedrig: SOC=%.0f%% ≤ %.0f%% → Sollwert=%.0fW",
+                battery_soc, self._battery_low_threshold, setpoint,
+            )
+        elif battery_soc is not None and battery_soc >= self._battery_full_threshold:
             if panel_power is not None and panel_power > 0:
                 floored = int(panel_power // 200) * 200
                 setpoint = float(max(total, max(200, floored - 200)))

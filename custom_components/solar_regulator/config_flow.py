@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
@@ -19,6 +21,8 @@ from .const import (
     CONF_BATTERY_SOC_SENSOR,
     CONF_BATTERY_FULL_THRESHOLD,
     CONF_BATTERY_FULL_MARGIN,
+    CONF_BATTERY_LOW_THRESHOLD,
+    CONF_BATTERY_LOW_OUTPUT,
     CONF_SOLAR_FORECAST_SENSOR,
     DEFAULT_INVERTER_MAX_POWER,
     DEFAULT_INVERTER_MIN_POWER,
@@ -30,6 +34,8 @@ from .const import (
     DEFAULT_ALLOWED_FEEDIN,
     DEFAULT_BATTERY_FULL_THRESHOLD,
     DEFAULT_BATTERY_FULL_MARGIN,
+    DEFAULT_BATTERY_LOW_THRESHOLD,
+    DEFAULT_BATTERY_LOW_OUTPUT,
 )
 
 SCHEMA = vol.Schema(
@@ -75,6 +81,12 @@ SCHEMA = vol.Schema(
         ),
         vol.Optional(CONF_BATTERY_FULL_MARGIN, default=DEFAULT_BATTERY_FULL_MARGIN): selector.NumberSelector(
             selector.NumberSelectorConfig(min=0, max=100, step=5, unit_of_measurement="%")
+        ),
+        vol.Optional(CONF_BATTERY_LOW_THRESHOLD, default=DEFAULT_BATTERY_LOW_THRESHOLD): selector.NumberSelector(
+            selector.NumberSelectorConfig(min=0, max=80, step=5, unit_of_measurement="%")
+        ),
+        vol.Optional(CONF_BATTERY_LOW_OUTPUT, default=DEFAULT_BATTERY_LOW_OUTPUT): selector.NumberSelector(
+            selector.NumberSelectorConfig(min=0, max=2000, step=10, unit_of_measurement="W")
         ),
         vol.Optional(CONF_SOLAR_FORECAST_SENSOR): selector.EntitySelector(
             selector.EntitySelectorConfig(domain="sensor")

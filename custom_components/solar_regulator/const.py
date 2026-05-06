@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 DOMAIN = "solar_regulator"
 
 # Config keys
@@ -15,6 +17,8 @@ CONF_PANEL_POWER_SENSOR = "panel_power_sensor"
 CONF_BATTERY_SOC_SENSOR = "battery_soc_sensor"
 CONF_BATTERY_FULL_THRESHOLD = "battery_full_threshold"
 CONF_BATTERY_FULL_MARGIN = "battery_full_margin"
+CONF_BATTERY_LOW_THRESHOLD = "battery_low_threshold"
+CONF_BATTERY_LOW_OUTPUT = "battery_low_output"
 CONF_SOLAR_FORECAST_SENSOR = "solar_forecast_sensor"
 
 # Defaults
@@ -28,3 +32,5 @@ DEFAULT_SPIKE_DURATION = 60    # Sekunden – wie lange ein Spike anhalten muss 
 DEFAULT_ALLOWED_FEEDIN = 0      # Watt – erlaubte Einspeisung bevor sofort reagiert wird
 DEFAULT_BATTERY_FULL_THRESHOLD = 90  # % – ab hier Marge anwenden
 DEFAULT_BATTERY_FULL_MARGIN = 20     # % – Marge über Verbrauch wenn Akku voll
+DEFAULT_BATTERY_LOW_THRESHOLD = 20  # % – unter dieser Schwelle Niedrigleistung
+DEFAULT_BATTERY_LOW_OUTPUT = 100     # W – Sollwert wenn Akku niedrig

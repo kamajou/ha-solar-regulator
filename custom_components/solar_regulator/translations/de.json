@@ -19,6 +19,8 @@
           "battery_soc_sensor": "Batterie-Ladestand Sensor (optional)",
           "battery_full_threshold": "Akku-Vollschwelle (%)",
           "battery_full_margin": "Marge über Verbrauch wenn Akku voll (%)",
+          "battery_low_threshold": "Akku-Ladeschwelle: unter diesem SOC Niedrigleistung (%)",
+          "battery_low_output": "Sollwert bei niedrigem Akku (W)",
           "solar_forecast_sensor": "Solar-Produktionsvorhersage Sensor (optional)"
         }
       }
@@ -44,6 +46,8 @@
           "battery_soc_sensor": "Batterie-Ladestand Sensor (optional)",
           "battery_full_threshold": "Akku-Vollschwelle (%)",
           "battery_full_margin": "Marge über Verbrauch wenn Akku voll (%)",
+          "battery_low_threshold": "Akku-Ladeschwelle: unter diesem SOC Niedrigleistung (%)",
+          "battery_low_output": "Sollwert bei niedrigem Akku (W)",
           "solar_forecast_sensor": "Solar-Produktionsvorhersage Sensor (optional)"
         }
       }
