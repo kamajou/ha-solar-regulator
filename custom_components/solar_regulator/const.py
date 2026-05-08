@@ -18,6 +18,7 @@ CONF_BATTERY_SOC_SENSOR = "battery_soc_sensor"
 CONF_BATTERY_FULL_THRESHOLD = "battery_full_threshold"
 CONF_BATTERY_FULL_MARGIN = "battery_full_margin"
 CONF_BATTERY_LOW_THRESHOLD = "battery_low_threshold"
+CONF_BATTERY_LOW_RESUME = "battery_low_resume"
 CONF_BATTERY_LOW_OUTPUT = "battery_low_output"
 CONF_SOLAR_FORECAST_SENSOR = "solar_forecast_sensor"
 
@@ -33,4 +34,5 @@ DEFAULT_ALLOWED_FEEDIN = 0      # Watt – erlaubte Einspeisung bevor sofort rea
 DEFAULT_BATTERY_FULL_THRESHOLD = 90  # % – ab hier Marge anwenden
 DEFAULT_BATTERY_FULL_MARGIN = 20     # % – Marge über Verbrauch wenn Akku voll
 DEFAULT_BATTERY_LOW_THRESHOLD = 20  # % – unter dieser Schwelle Niedrigleistung
-DEFAULT_BATTERY_LOW_OUTPUT = 100     # W – Sollwert wenn Akku niedrig
+DEFAULT_BATTERY_LOW_RESUME = 30     # % – ab dieser Schwelle Normalbetrieb wiederaufnehmen
+DEFAULT_BATTERY_LOW_OUTPUT = 100    # W – Sollwert wenn Akku niedrig

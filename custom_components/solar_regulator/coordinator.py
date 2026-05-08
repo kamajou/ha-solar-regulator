@@ -21,6 +21,7 @@ from .const import (
     CONF_BATTERY_FULL_THRESHOLD,
     CONF_BATTERY_FULL_MARGIN,
     CONF_BATTERY_LOW_THRESHOLD,
+    CONF_BATTERY_LOW_RESUME,
     CONF_BATTERY_LOW_OUTPUT,
     CONF_SOLAR_FORECAST_SENSOR,
     DEFAULT_INVERTER_MAX_POWER,
@@ -34,6 +35,7 @@ from .const import (
     DEFAULT_BATTERY_FULL_THRESHOLD,
     DEFAULT_BATTERY_FULL_MARGIN,
     DEFAULT_BATTERY_LOW_THRESHOLD,
+    DEFAULT_BATTERY_LOW_RESUME,
     DEFAULT_BATTERY_LOW_OUTPUT,
 )
 
@@ -64,7 +66,9 @@ class SolarRegulatorCoordinator:
         self._battery_full_threshold: float = float(config.get(CONF_BATTERY_FULL_THRESHOLD, DEFAULT_BATTERY_FULL_THRESHOLD))
         self._battery_full_margin: float = float(config.get(CONF_BATTERY_FULL_MARGIN, DEFAULT_BATTERY_FULL_MARGIN))
         self._battery_low_threshold: float = float(config.get(CONF_BATTERY_LOW_THRESHOLD, DEFAULT_BATTERY_LOW_THRESHOLD))
+        self._battery_low_resume: float = float(config.get(CONF_BATTERY_LOW_RESUME, DEFAULT_BATTERY_LOW_RESUME))
         self._battery_low_output: float = float(config.get(CONF_BATTERY_LOW_OUTPUT, DEFAULT_BATTERY_LOW_OUTPUT))
+        self._battery_low_active: bool = False
         self._solar_forecast_sensor: str | None = config.get(CONF_SOLAR_FORECAST_SENSOR) or None
 
         self._current_limit: float | None = None
@@ -213,12 +217,19 @@ class SolarRegulatorCoordinator:
         battery_soc = self._read_optional_float(self._battery_soc_sensor, "Batterie-SOC")
         panel_power = self._read_optional_float(self._panel_power_sensor, "Panelleistung")
 
-        if battery_soc is not None and battery_soc <= self._battery_low_threshold:
+        if battery_soc is not None:
+            if battery_soc <= self._battery_low_threshold:
+                self._battery_low_active = True
+            elif battery_soc >= self._battery_low_resume:
+                self._battery_low_active = False
+
+        if self._battery_low_active:
             setpoint = self._battery_low_output
             self.mode = "Batterie laden"
             _LOGGER.debug(
-                "Batterie niedrig: SOC=%.0f%% ≤ %.0f%% → Sollwert=%.0fW",
-                battery_soc, self._battery_low_threshold, setpoint,
+                "Batterie laden: SOC=%.0f%%, Wiederaufnahme ab %.0f%% → Sollwert=%.0fW",
+                battery_soc if battery_soc is not None else -1,
+                self._battery_low_resume, setpoint,
             )
         elif battery_soc is not None and battery_soc >= self._battery_full_threshold:
             if panel_power is not None and panel_power > 0:

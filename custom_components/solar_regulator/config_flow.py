@@ -22,6 +22,7 @@ from .const import (
     CONF_BATTERY_FULL_THRESHOLD,
     CONF_BATTERY_FULL_MARGIN,
     CONF_BATTERY_LOW_THRESHOLD,
+    CONF_BATTERY_LOW_RESUME,
     CONF_BATTERY_LOW_OUTPUT,
     CONF_SOLAR_FORECAST_SENSOR,
     DEFAULT_INVERTER_MAX_POWER,
@@ -35,6 +36,7 @@ from .const import (
     DEFAULT_BATTERY_FULL_THRESHOLD,
     DEFAULT_BATTERY_FULL_MARGIN,
     DEFAULT_BATTERY_LOW_THRESHOLD,
+    DEFAULT_BATTERY_LOW_RESUME,
     DEFAULT_BATTERY_LOW_OUTPUT,
 )
 
@@ -84,6 +86,9 @@ SCHEMA = vol.Schema(
         ),
         vol.Optional(CONF_BATTERY_LOW_THRESHOLD, default=DEFAULT_BATTERY_LOW_THRESHOLD): selector.NumberSelector(
             selector.NumberSelectorConfig(min=0, max=80, step=5, unit_of_measurement="%")
+        ),
+        vol.Optional(CONF_BATTERY_LOW_RESUME, default=DEFAULT_BATTERY_LOW_RESUME): selector.NumberSelector(
+            selector.NumberSelectorConfig(min=0, max=90, step=5, unit_of_measurement="%")
         ),
         vol.Optional(CONF_BATTERY_LOW_OUTPUT, default=DEFAULT_BATTERY_LOW_OUTPUT): selector.NumberSelector(
             selector.NumberSelectorConfig(min=0, max=2000, step=10, unit_of_measurement="W")
