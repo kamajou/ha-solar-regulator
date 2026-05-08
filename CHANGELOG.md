@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1] – 2026-05-08
+
+### Added
+- **Hysterese für Akku-Ladeschwelle**: Neuer Parameter `Wiederaufnahme-Schwelle` — der Normalbetrieb wird erst wieder aufgenommen wenn der SOC diesen Wert überschreitet. Verhindert Schwingen um den Grenzwert. Standard: Eintritt bei 20 %, Wiederaufnahme bei 30 %.
+
+---
+
 ## [1.1.0] – 2026-05-06
 
 ### Added
